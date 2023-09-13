@@ -1,4 +1,7 @@
 package com.azercell.customerservice.service;
 
-public class TransactionService {
+import org.springframework.stereotype.Service;
+
+@Service
+public interface TransactionService {
 }

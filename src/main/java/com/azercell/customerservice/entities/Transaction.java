@@ -7,18 +7,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-@Data
 @Entity
-@Table(name = "customer")
+@Table
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Customer {
+public class Transaction {
     @Id
     private Long id;
-    private String name;
-    private String surname;
-    private Date birthdate;
-    private String gsmNumber;
-    private Double balance;
+    private Double amount;
+
 }
