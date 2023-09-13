@@ -1,20 +1,26 @@
 package com.azercell.customerservice.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
+import com.azercell.customerservice.enums.Status;
+import com.azercell.customerservice.enums.TransactionType;
+import jakarta.persistence.*;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Entity
-@Table
+@Table(name = "transactions")
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class Transaction {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private LocalDateTime transactionDate;
     private Double amount;
-
+    @Enumerated(value = EnumType.STRING)
+    private TransactionType transactionType;
+    @Enumerated(value = EnumType.STRING)
+    private Status status;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "customer")
+    private Customer customer;
 }
