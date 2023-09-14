@@ -8,7 +8,9 @@ import java.util.List;
 @Service
 public interface CustomerService {
     void createCustomer(CustomerDto customerDto);
-
+    void topUpCustomerBalance(Long id, Double amount);
+    void purchaseFromCustomerBalance(Long id, Double amount);
+    void refundCustomerBalance(Long id, Double amount);
     CustomerDto getCustomerById(Long id);
 
     List<CustomerDto> getAllCustomers();

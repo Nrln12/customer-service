@@ -6,6 +6,8 @@ import com.azercell.customerservice.exception.BadRequestException;
 import com.azercell.customerservice.exception.NotFoundException;
 import com.azercell.customerservice.repository.CustomerRepository;
 import com.azercell.customerservice.service.CustomerService;
+import com.azercell.customerservice.utils.ValidationUtils;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -25,10 +27,32 @@ public class CustomerServiceImpl implements CustomerService {
         if(findCustomer.isPresent()){
             throw new BadRequestException("Customer already exists");
         }
-        findCustomer.get().setBalance(100.0);
+        customerDto.setBalance(100.0);
         customerRepository.save(modelMapper.map(customerDto, Customer.class));
     }
+
     @Override
+    @Transactional
+    public void topUpCustomerBalance(Long id, Double amount) {
+        Customer findCustomer = customerRepository.findById(id).orElseThrow(() -> new NotFoundException("Customer doesn't exist"));
+        findCustomer.setBalance(findCustomer.getBalance()+amount);
+        customerRepository.save(findCustomer);
+    }
+
+    @Override
+    public void purchaseFromCustomerBalance(Long id, Double amount) {
+        Customer findCustomer = customerRepository.findById(id).orElseThrow(() -> new NotFoundException("Customer doesn't exist"));
+        if(ValidationUtils.isValidPurchase(findCustomer.getBalance(), amount))
+            findCustomer.setBalance(findCustomer.getBalance()-amount);
+        customerRepository.save(findCustomer);
+    }
+
+    @Override
+    public void refundCustomerBalance(Long id, Double amount) {
+
+    }
+    @Override
+    @Transactional
     public CustomerDto getCustomerById(Long id) {
         Customer customer = customerRepository.findById(id).orElseThrow(() -> new NotFoundException("Customer doesn't exist"));
         return modelMapper.map(customer, CustomerDto.class);
@@ -38,4 +62,5 @@ public class CustomerServiceImpl implements CustomerService {
         List<Customer> customerList = customerRepository.findAll();
         return Arrays.asList(modelMapper.map(customerList, CustomerDto[].class));
     }
+
 }

@@ -17,6 +17,16 @@ public class CustomerController {
         customerService.createCustomer(customerDto);
         return ResponseEntity.ok(HttpStatus.CREATED);
     }
+    @PutMapping("/top-up/{id}")
+    public ResponseEntity<?> topUpCustomerBalance(@PathVariable Long id, @RequestParam Double amount){
+        customerService.topUpCustomerBalance(id, amount);
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+    @PutMapping("/purchase/{id}")
+    public ResponseEntity<?> purchaseCustomerBalance(@PathVariable Long id, @RequestParam Double amount){
+        customerService.purchaseFromCustomerBalance(id, amount);
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
     @GetMapping("/{id}")
     public ResponseEntity<?> getCustomer(@PathVariable Long id){
         return ResponseEntity.ok(customerService.getCustomerById(id));
