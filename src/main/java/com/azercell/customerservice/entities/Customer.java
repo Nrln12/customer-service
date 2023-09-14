@@ -22,9 +22,9 @@ public class Customer {
     private Double balance;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "customers_transactions",
-            joinColumns = @JoinColumn(name = "customer_id"),
-            inverseJoinColumns = @JoinColumn(name = "transaction_id")
+            name = "transactions_customers",
+            joinColumns = @JoinColumn(name = "customer_id", referencedColumnName = "id", table = "customers"),
+            inverseJoinColumns = @JoinColumn(name = "transaction_id", referencedColumnName = "id", table = "transactions")
     )
     private List<Transaction> transactions;
 }
