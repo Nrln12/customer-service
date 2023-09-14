@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Data
 public class Transaction {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDateTime transactionDate;
     private Double amount;
@@ -20,7 +20,4 @@ public class Transaction {
     private TransactionType transactionType;
     @Enumerated(value = EnumType.STRING)
     private Status status;
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "customer")
-    private Customer customer;
 }

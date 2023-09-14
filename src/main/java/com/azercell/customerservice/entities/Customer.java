@@ -13,13 +13,18 @@ import java.util.List;
 @Table(name = "customers")
 public class Customer {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String surname;
     private Date birthdate;
     private String gsmNumber;
     private Double balance;
-    @OneToMany(mappedBy="customer",fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "customers_transactions",
+            joinColumns = @JoinColumn(name = "customer_id"),
+            inverseJoinColumns = @JoinColumn(name = "transaction_id")
+    )
     private List<Transaction> transactions;
 }
