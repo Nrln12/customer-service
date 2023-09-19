@@ -6,6 +6,7 @@ import com.azercell.customerservice.entities.Customer;
 import com.azercell.customerservice.entities.Transaction;
 import com.azercell.customerservice.enums.Status;
 import com.azercell.customerservice.enums.TransactionType;
+import com.azercell.customerservice.exception.BadRequestException;
 import com.azercell.customerservice.exception.NotFoundException;
 import com.azercell.customerservice.repository.TransactionRepository;
 import com.azercell.customerservice.service.TransactionService;
@@ -70,6 +71,10 @@ public class TransactionServiceImpl implements TransactionService {
         if(response != null && response.getStatusCode() == HttpStatus.OK){
             customerClient.topUpCustomerBalance(findTransaction.getCustomer().getId(), amount);
         }
+        if(findTransaction.getAmount()<=amount){
+            throw new BadRequestException("Invalid refund operation");
+        }
+        findCustomer.setBalance(findCustomer.getBalance()+amount);
         Transaction newTransaction = Transaction.builder()
                 .transactionDate(LocalDateTime.now())
                 .transactionType(TransactionType.REFUND)

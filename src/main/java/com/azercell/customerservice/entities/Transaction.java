@@ -26,8 +26,7 @@ public class Transaction {
     private TransactionType transactionType;
     @Enumerated(value = EnumType.STRING)
     private Status status;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "customer_id")
-    @Transient
     private Customer customer;
 }

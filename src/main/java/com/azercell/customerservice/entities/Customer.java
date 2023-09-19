@@ -23,4 +23,7 @@ public class Customer {
     private Date birthdate;
     private String gsmNumber;
     private Double balance;
+    @OneToMany()
+    private List<Transaction> transactionList;
+
 }
