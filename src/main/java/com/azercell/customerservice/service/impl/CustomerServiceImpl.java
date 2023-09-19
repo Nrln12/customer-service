@@ -25,7 +25,8 @@ public class CustomerServiceImpl implements CustomerService {
         if(findCustomer.isPresent()){
             throw new BadRequestException("Customer already exists");
         }
-        findCustomer.get().setBalance(100.0);
+        customerDto.setBalance(100.0);
+        Customer customer = modelMapper.map(customerDto, Customer.class);
         customerRepository.save(modelMapper.map(customerDto, Customer.class));
     }
     @Override
